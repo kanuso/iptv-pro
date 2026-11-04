@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Hls from "hls.js";
 import {
-  Tv, Search, Heart, Radio, Play,
+  Tv, Search, Heart, Radio, 
   RefreshCw, Maximize, Menu, Signal
 } from "lucide-react";
 import "./App.css";
