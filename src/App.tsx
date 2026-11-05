@@ -34,6 +34,12 @@ const nationalChannels: Channel[] = [
     url: "https://ddycmnicl95kp.cloudfront.net/live/i8bocdjcqa5r/master.m3u8",
     category: "Nacionales",
   },
+    {
+    id: "TVAzteca",
+    name: "TVAzteca",
+    url: "https://guastream.com:3996/stream/play.m3u8",
+    category: "Nacionales",
+  },
   {
     id: "guatevision",
     name: "Guatevisión",
