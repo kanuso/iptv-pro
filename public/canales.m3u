@@ -43,3 +43,23 @@ https://oly-ftvpc.otteravision.com/oly/ftvpc/ftvpc.m3u8
 https://edge.essastream.com/borealtelevision/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="ChinolaTV.do@SD" tvg-logo="https://i.imgur.com/ybud4dI.png" group-title="Kids",Chinola TV (480p)
 https://tv.wracanal10.com:3300/live/chinolatvlive.m3u8
+#EXTINF:-1 group-title="Movies;News",Cosmos Tv
+https://tv.mediacp.eu:19360/cosmos/cosmos.m3u8
+#EXTINF:-1 group-title="Infantiles" tvg-name="Infantil (Canal Extremadura)",Infantil (Canal Extremadura)
+https://cdn-canalextremadura.watchity.net/fast2/master.m3u8
+#EXTINF:-1 group-title="Infantiles" tvg-name="EnerGeek Retro",EnerGeek Retro HD
+https://cl-2.backend.energeek.cl/bkp/egretroweb/index.m3u8?token=TDTCh4nnelsES
+#EXTINF:-1 group-title="Infantiles" tvg-name="EnerGeek Retro",EnerGeek Retro SD
+https://cl-2.backend.energeek.cl/bkp/egretro/mobile/index.m3u8?token=TDTCh4nnelsES
+#EXTINF:-1 group-title="Infantiles" tvg-name="EnerGeek Fan",EnerGeek Fan HD
+https://cl-2.backend.energeek.cl/bkp/egfanweb/index.m3u8?token=TDTCh4nnelsES
+#EXTINF:-1 group-title="Infantiles" tvg-name="EnerGeek Fan",EnerGeek Fan SD
+https://cl-2.backend.energeek.cl/bkp/egfan/mobile/index.m3u8?token=TDTCh4nnelsES
+#EXTINF:-1 group-title="Documentary",Love Nature HD (1080p)
+https://mumbai-edge.smartplaytv.in/LoveNature/index.m3u8
+#EXTINF:-1 group-title="Documentary",Ecovision (720p)
+https://streaming.grupomediosdelnorte.com:19360/ecovision/ecovision.m3u8
+#EXTINF:-1 group-title="Series",BBC Drama (1080p)
+https://amg00793-amg00793c40-rakuten-es-5444.playouts.now.amagi.tv/playlist.m3u8
+#EXTINF:-1 group-title="Kids",BabyFirst (720p)
+https://cdn.fast.jwp.services/v1/channel/1_jB6940Ei_TvhvIHDL/manifest.m3u8
