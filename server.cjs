@@ -34,11 +34,24 @@ function saveUrl(url) {
 }
 
 // Validar que las direcciones sean HTTPS
+const ALLOWED_HOSTS = new Set([
+  "45.184.109.10",
+  "jmp2.uk"
+]);
+
 function validateUrl(url) {
   const parsed = new URL(url);
 
-  if (parsed.protocol !== "https:") {
-    throw new Error("Solo se permiten direcciones HTTPS");
+  if (!["https:", "http:"].includes(parsed.protocol)) {
+    throw new Error("Protocolo no permitido");
+  }
+
+  if (!ALLOWED_HOSTS.has(parsed.hostname)) {
+    throw new Error("Dominio no autorizado: " + parsed.hostname);
+  }
+
+  if (parsed.username || parsed.password) {
+    throw new Error("Credenciales no permitidas en URL");
   }
 
   return parsed;
@@ -69,12 +82,11 @@ app.get("/create-proxy", (req, res) => {
     const parsed = validateUrl(url);
 
     // Solo se permite crear sesiones desde enlaces Pluto conocidos
-    if (parsed.hostname !== "jmp2.uk") {
-      return res.status(403).json({
-        error: "Dominio inicial no permitido",
-      });
-    }
-
+ if (!ALLOWED_HOSTS.has(parsed.hostname)) {
+  return res.status(403).json({
+    error: "Dominio inicial no permitido",
+  });
+}
     const proxyUrl = saveUrl(parsed.toString());
 
   
