@@ -120,25 +120,47 @@ function parseM3U(content: string): Channel[] {
 
 
 async function getStreamUrl(url: string): Promise<string> {
-  if (!url.includes("jmp2.uk")) {
+  const parsed = new URL(url);
+
+  // Los canales HTTPS públicos pueden reproducirse directamente,
+  // excepto los que necesitan pasar por el proxy.
+  const needsProxy =
+    parsed.protocol === "http:" ||
+    parsed.hostname === "jmp2.uk";
+
+  if (!needsProxy) {
     return url;
   }
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, "");
+
+  if (!API_URL) {
+    throw new Error("Falta configurar VITE_API_URL");
+  }
 
   const response = await fetch(
     `${API_URL}/create-proxy?url=${encodeURIComponent(url)}`
   );
 
   if (!response.ok) {
-    throw new Error(`Error creando proxy: ${response.status}`);
+    const message = await response.text();
+    throw new Error(`Error creando proxy (${response.status}): ${message}`);
   }
 
   const data: { url: string } = await response.json();
 
-  return new URL(data.url, API_URL).toString();
-}
+  if (!data.url) {
+    throw new Error("El backend no devolvió una URL del proxy");
+  }
 
+  const proxyUrl = new URL(data.url, API_URL);
+
+  if (proxyUrl.protocol !== "https:") {
+    throw new Error("El proxy debe devolver una dirección HTTPS");
+  }
+
+  return proxyUrl.toString();
+}
 
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
