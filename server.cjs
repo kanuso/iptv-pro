@@ -7,8 +7,21 @@ const { Readable } = require("stream");
 const app = express();
 
 
+const allowedOrigins = [
+  "https://iptv-pro.vercel.app",
+  "https://iptv-pro-weld.vercel.app",
+  "http://localhost:5173"
+];
+
 const corsOptions = {
-  origin: "https://iptv-pro.vercel.app",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    console.warn("Origen bloqueado por CORS:", origin);
+    return callback(new Error("Origen no autorizado por CORS"));
+  },
   methods: ["GET", "HEAD", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Range"],
   exposedHeaders: [
