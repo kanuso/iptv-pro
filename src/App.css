@@ -444,3 +444,7 @@ h1 {
     font-size: 11px;
   }
 }
+
+.player-container {
+  scroll-margin-top: 20px;
+}

@@ -163,8 +163,9 @@ async function getStreamUrl(url: string): Promise<string> {
 }
 
 function App() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const hlsRef = useRef<Hls | null>(null);
+const videoRef = useRef<HTMLVideoElement>(null);
+const hlsRef = useRef<Hls | null>(null);
+const playerContainerRef = useRef<HTMLElement>(null);
 
   const [channels, setChannels] = useState<Channel[]>(nationalChannels);
   const [selected, setSelected] = useState<Channel>(nationalChannels[0]);
@@ -173,6 +174,19 @@ function App() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [status, setStatus] = useState("Conectando...");
   const [reload, setReload] = useState(0);
+
+const previousSelectedId = useRef(selected.id);
+
+useEffect(() => {
+  if (previousSelectedId.current !== selected.id) {
+    previousSelectedId.current = selected.id;
+
+    playerContainerRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+}, [selected.id]);
 
   // Cargar lista M3U
   useEffect(() => {
@@ -396,7 +410,7 @@ function App() {
             </div>
           </div>
 
-          <section className="player-container">
+          <section ref={playerContainerRef} className="player-container">
             {selected.type === "embed" ? (
               <iframe
                 key={selected.id}
