@@ -6,14 +6,49 @@ const { Readable } = require("stream");
 
 const app = express();
 
-const allowedOrigins = process.env.FRONTEND_URL
-  ? process.env.FRONTEND_URL.split(",")
-  : ["http://localhost:5173"];
+const allowedOrigins = (
+  process.env.FRONTEND_URL || "http://localhost:5173"
+)
+  .split(",")
+  .map(origin => origin.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
 
-app.use(cors({
-  origin: allowedOrigins,
-}));
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Permitir solicitudes sin Origin (por ejemplo, servidor a servidor)
+    if (!origin) {
+      return callback(null, true);
+    }
 
+    const normalizedOrigin = origin.replace(/\/+$/, "");
+
+    if (allowedOrigins.includes(normalizedOrigin)) {
+      return callback(null, true);
+    }
+
+    console.warn("Origen bloqueado por CORS:", origin);
+
+    return callback(null, false);
+  },
+
+  methods: ["GET", "HEAD", "POST", "OPTIONS"],
+
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "Range"
+  ],
+
+  exposedHeaders: [
+    "Content-Length",
+    "Content-Range",
+    "Accept-Ranges"
+  ],
+
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 const PORT = process.env.PORT || 3001;
 
 const urlStore = new Map();
